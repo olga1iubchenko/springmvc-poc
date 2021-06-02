@@ -1,6 +1,7 @@
 package com.poc.springproject.controller;
 
 import com.poc.springproject.dto.UserDto;
+import com.poc.springproject.service.SqlDbService;
 import com.poc.springproject.service.UserService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    SqlDbService sqlDbService;
+
 
     @GetMapping(value = "all")
     public ResponseEntity getUsers() {
@@ -29,7 +33,10 @@ public class UserController {
     @GetMapping(value = "/{id}")
     public ResponseEntity getUserById(@PathVariable int id) {
         try {
-            return ResponseEntity.ok(String.format("User with id %d found. User's name: %s and lastname: %s", id, UserService.getUserById(id).getName(), UserService.getUserById(id).getLastname()));
+            return ResponseEntity.ok(
+                    String.format("User with id %d found. User's name: %s and lastname: %s",
+                            id, sqlDbService.getUserFromDbResult(id).getName(), sqlDbService.getUserFromDbResult(id).getLastname()));
+//            return ResponseEntity.ok(String.format("User with id %d found. User's name: %s and lastname: %s", id, UserService.getUserById(id).getName(), UserService.getUserById(id).getLastname()));
         } catch (Exception e) {
             return ResponseEntity.noContent().build();
         }
@@ -48,7 +55,8 @@ public class UserController {
     @SneakyThrows
     public ResponseEntity createUser(@RequestBody @Validated UserDto userDto) {
         try {
-            UserService.createNewUser(userDto);
+            sqlDbService.createUser(userDto);
+          //  UserService.createNewUser(userDto);
             return ResponseEntity.ok(UserService.getNewCreatedUserDataString());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
