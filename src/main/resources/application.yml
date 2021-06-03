@@ -1,14 +1,24 @@
 spring:
   main:
     banner-mode: off
-    # ===============================
-    # DATABASE
-    # ===============================
-    datasource:
-      url: jdbc:postgresql://localhost:5432/postgres
-      username: postgres
-      password: postgres01
-      driver-class-name: org.postgresql.Driver
-      initialization-mode: always
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres01
+    driver-class-name: org.postgresql.Driver
+
+
+
+
+#    banner-mode: off
+#    # ===============================
+#    # DATABASE
+#    # ===============================
+#    datasource:
+#      url: jdbc:postgresql://localhost:5432/postgres
+#      username: postgres
+#      password: postgres01
+#      driver-class-name: org.postgresql.Driver
+#      initialization-mode: always
 
 
