@@ -1,9 +1,6 @@
-package com.poc.springproject.dao;
+package com.poc.springproject.daojdbc;
 
-import com.poc.springproject.dto.UserDto;
 import lombok.SneakyThrows;
-
-import java.sql.ResultSet;
 
 public class Dao {
     private static final String SELECT_ALL_FROM_USERS = "SELECT * FROM USERS";

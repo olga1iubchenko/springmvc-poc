@@ -1,7 +1,6 @@
-package com.poc.springproject.dao;
+package com.poc.springproject.daojdbc;
 
 import com.poc.springproject.dto.UserDto;
-import com.poc.springproject.entity.User;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -11,7 +10,6 @@ public class UserRowMapper implements RowMapper<UserDto> {
     @Override
     public UserDto mapRow(ResultSet resultSet, int i) throws SQLException {
         UserDto user = new UserDto();
-        user.setId(resultSet.getInt("id"));
         user.setName(resultSet.getString("name"));
         user.setMiddleName(resultSet.getString("middlename"));
         user.setLastname(resultSet.getString("lastname"));

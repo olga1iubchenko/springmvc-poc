@@ -16,8 +16,6 @@ import javax.validation.constraints.Size;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonFormat
 public class UserDto {
-    @NotBlank(message = "Please set user id")
-    int id;
     @NotBlank(message = "User's name can't be empty")
     @Size(min = 3, max = 24, message = "Name field must contain between 3 and 24 characters")
     String name;
@@ -32,7 +30,6 @@ public class UserDto {
     @Override
     public String toString() {
         return "User information:" +
-                "id='" + id + '\'' +
                 "name='" + name + '\'' +
                 ", middleName='" + middleName + '\'' +
                 ", lastname='" + lastname + '\'' +
