@@ -3,19 +3,22 @@ package com.poc.springproject.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Positive;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
+//@Data
+//@EqualsAndHashCode
+//@ToString
 @Setter
 @Getter
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonFormat
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +39,10 @@ public class User {
     @Column(name = "email")
     private String email;
 
-  public User (String firstName, String middleName, String lastName, int age, String email) {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<TaskEntity> task;
+
+  public UserEntity(String firstName, String middleName, String lastName, int age, String email) {
       this.name = firstName;
       this.middleName = middleName;
       this.name = lastName;

@@ -1,6 +1,6 @@
 package com.poc.springproject.controller;
 
-import com.poc.springproject.entity.User;
+import com.poc.springproject.entity.UserEntity;
 import com.poc.springproject.service.UserService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,23 +53,24 @@ public class UserController {
 
     @PostMapping
     @SneakyThrows
-    public ResponseEntity createUser(@RequestBody @Validated User user) {
+    public ResponseEntity createUser(@RequestBody @Validated UserEntity userEntity) {
         try {
-            userService.add(user);
+            userService.add(userEntity);
             return ResponseEntity.ok("User successfully created");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
 
-    @PutMapping(value = "/user/{id}")
-    public ResponseEntity updateUserData(@RequestBody User user, @PathVariable long id) {
-        try {
-            return ResponseEntity.ok("User successfully updated. Such number of rows " + userService.updateUser(user,id));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
-        }
-    }
+//    @PutMapping(value = "/user/{id}")
+//    public ResponseEntity updateUserData(@RequestBody UserEntity userEntity, @PathVariable long id) {
+//        try {
+//            userService.updateUser(userEntity, id);
+//            return ResponseEntity.ok("User successfully updated.");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+//        }
+//    }
 
     @DeleteMapping(value="/{id}")
    public ResponseEntity deleteUser(@PathVariable long id) {

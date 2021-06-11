@@ -1,14 +1,16 @@
 package com.poc.springproject.service;
 
-import com.poc.springproject.entity.User;
+import com.poc.springproject.entity.UserEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface UserService {
-        void add(User user);
-        List<User> listUsers();
-        User getUserById(long id);
-        int deleteUser(long id);
-        int updateUser(User user, long id);
+        UserEntity add(UserEntity userEntity);
+        List<UserEntity> listUsers();
+        UserEntity getUserById(long id);
+        long deleteUser(long id);
+      //  void updateUser(UserEntity userEntity, long id);
 
 }

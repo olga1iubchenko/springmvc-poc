@@ -1,47 +1,59 @@
 package com.poc.springproject.service;
 
-import com.poc.springproject.dao.UserDao;
-import com.poc.springproject.entity.User;
+import com.poc.springproject.entity.UserEntity;
+import com.poc.springproject.exception.UserAlreadyExistsException;
+import com.poc.springproject.repository.UserRepository;
+import com.poc.springproject.repository.UserRepositoryCustom;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserDao userDao;
+    private final UserRepository userRepository;
 
-    @Transactional
+    private final UserRepositoryCustom userRepositoryCustom;
+
+    public UserServiceImpl(UserRepository userRepository, UserRepositoryCustom userRepositoryCustom) {
+        this.userRepository = userRepository;
+        this.userRepositoryCustom = userRepositoryCustom;
+    }
+
     @Override
-    public void add(User user) {
-        userDao.add(user);
+    @SneakyThrows
+    public UserEntity add(UserEntity userEntity)  {
+            if (userRepository.findById(userEntity.getId()) != null) {
+                throw new UserAlreadyExistsException("User with this id is already exists", HttpStatus.CONFLICT);
+            }
+            return userRepository.save(userEntity);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<User> listUsers() {
-        return userDao.listUsers();
+    public List<UserEntity> listUsers() {
+        return userRepository.findAll();
     }
 
-    @Transactional
     @Override
-    public User getUserById(long id) {
-        return userDao.getUserById(id);
+    public UserEntity getUserById(long id) {
+        return userRepository.findById(id).get();
     }
 
-    @Transactional
     @Override
-    public int deleteUser(long id) {
-        return userDao.deleteUser(id);
+    public long deleteUser(long id) {
+        userRepository.deleteById(id);
+        return id;
     }
 
-    @Transactional
-    @Override
-    public int updateUser(User user, long id) {
-        return userDao.updateUser(user, id);
-    }
+//    @Override
+//    public void updateUser(UserEntity userEntity, long id) {
+//        userRepositoryCustom.setUserInfoById(userEntity, id);
+//    }
 
 }
